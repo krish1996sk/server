@@ -12,6 +12,8 @@ Devices = {
     'device5': {'status': 'Router broken'}
 }
 
+Devices = json.load(open(Devices.json))
+
 
 def abort_if_device_doesnt_exist(device_id):
     if device_id not in Devices:
@@ -29,12 +31,16 @@ class Device(Resource):
     def delete(self, device_id):
         abort_if_device_doesnt_exist(device_id)
         del Devices[device_id]
+        with open('Devices.json', 'w') as f:
+            json.dump(Devices, f, indent=2)
         return '', 204
 
     def put(self, device_id):
         args = parser.parse_args()
         task = {'status': args['status']}
         Devices[device_id] = task
+        with open('Devices.json', 'w') as f:
+            json.dump(Devices, f, indent=2)
         return task, 201
 
 
@@ -47,6 +53,8 @@ class DeviceList(Resource):
         device_id = int(max(Devices.keys()).lstrip('device')) + 1
         device_id = 'device%i' % device_id
         Devices[device_id] = {'status': args['status']}
+        with open('Devices.json', 'w') as f:
+            json.dump(Devices, f, indent=2)
         return Devices[device_id], 201
 
 api.add_resource(DeviceList, '/devices')
