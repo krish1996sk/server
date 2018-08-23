@@ -1,0 +1,7 @@
+{
+    "device1": {"status": "good with all interfaces working"},
+    "device2": {"status": "hard disk failure"},
+    "device3": {"status": "good"},
+    "device4": {"status": "RPD not working"},
+    "device5": {"status": "Router broken"}
+}
